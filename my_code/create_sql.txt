@@ -1,0 +1,62 @@
+CREATE DATABASE IF NOT EXISTS lab_ironhack2;
+USE DATABASE LAB_IRONHACK2;
+CREATE SCHEMA IF NOT EXISTS lab_sql2;
+USE SCHEMA LAB_IRONHACK2.lab_sql2;
+CREATE
+OR REPLACE STAGE my_stage2;
+-------------------------------------------------------
+-- Table cars
+-------------------------------------------------------
+CREATE TABLE IF NOT EXISTS lab_ironhack2.lab_sql2.cars(
+    car_id INT NOT NULL,
+    manufacturer VARCHAR(20) NOT NULL,
+    model VARCHAR(20) NOT NULL,
+    year_ INT NOT NULL,
+    color VARCHAR(20) NOT NULL,
+    PRIMARY KEY (car_id)
+);
+-------------------------------------------------------
+-- Table customer
+-- ----------------------------------------------------
+CREATE TABLE IF NOT EXISTS lab_ironhack2.lab_sql2.customer (
+    customer_id INT NOT NULL,
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20),
+    phone_no VARCHAR(20) NULL DEFAULT NULL,
+    email VARCHAR(20) NULL DEFAULT NULL,
+    address VARCHAR(40) NULL DEFAULT NULL,
+    city VARCHAR(20) NULL DEFAULT NULL,
+    state VARCHAR(20) NULL DEFAULT NULL,
+    country VARCHAR(20) NULL DEFAULT NULL,
+    zip_code VARCHAR(20) NULL DEFAULT NULL,
+    client INT NULL DEFAULT NULL,
+    PRIMARY KEY (customer_id)
+);
+-------------------------------------------------------
+-- Table salesperson
+-- ----------------------------------------------------
+CREATE TABLE IF NOT EXISTS lab_ironhack2.lab_sql2.salesperson (
+    salesperson_id INT NOT NULL,
+    first_name VARCHAR(40) NOT NULL,
+    store_name VARCHAR(3) NOT NULL,
+    PRIMARY KEY (salesperson_id)
+);
+
+-------------------------------------------------------
+-- Table invoices
+-- ----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS lab_ironhack2.lab_sql2.invoices (
+    invoice_id INT NOT NULL,
+    date_ DATE DEFAULT NULL,
+    car VARCHAR(20) NOT NULL,
+    customer VARCHAR(20) NOT NULL,
+    salesperson VARCHAR(20) DEFAULT NULL,
+    salesperson_id INT NOT NULL,
+    car_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    PRIMARY KEY (invoice_id),
+    CONSTRAINT fk_invoices_salesperson FOREIGN KEY (salesperson_id) REFERENCES lab_ironhack2.lab_sql2.salesperson (salesperson_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_invoices_car FOREIGN KEY (car_id) REFERENCES lab_ironhack2.lab_sql2.cars (car_id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT fk_invoices_customer FOREIGN KEY (customer_id) REFERENCES lab_ironhack2.lab_sql2.customer (customer_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
